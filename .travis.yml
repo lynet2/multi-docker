@@ -13,4 +13,10 @@ after_success:
   - docker build -t lynet2/multi-nginx ./nginx
   - docker build -t lynet2/multi-server ./server
   - docker build -t lynet2/multi-worker ./worker
-
+  #log in to docker cli
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  #push images to docker hub
+  - docker push lynet2/multi-client
+  - docker push lynet2/multi-nginx
+  - docker push lynet2/multi-server
+  - docker push lynet2/multi-worker
