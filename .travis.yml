@@ -1,22 +1,24 @@
 sudo: required
+language: generic
+
 services:
   - docker
 
 before_install:
   - docker build -t lynet2/react-test -f ./client/Dockerfile.dev ./client
 
-script: # all scripts must exit 0 or assume fail
-  - docker run lynet2/react-test npm test -- --coverage
+script:
+  - docker run -e CI=true lynet2/react-test npm test
 
 after_success:
   - docker build -t lynet2/multi-client ./client
   - docker build -t lynet2/multi-nginx ./nginx
   - docker build -t lynet2/multi-server ./server
   - docker build -t lynet2/multi-worker ./worker
-  #log in to docker cli
+  # Log in to the docker CLI
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
-  #push images to docker hub
+  # Take those images and push them to docker hub
   - docker push lynet2/multi-client
   - docker push lynet2/multi-nginx
   - docker push lynet2/multi-server
-  - docker push lynet2/multi-worker 
+  - docker push lynet2/multi-worker
