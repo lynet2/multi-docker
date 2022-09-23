@@ -19,4 +19,4 @@ after_success:
   - docker push lynet2/multi-client
   - docker push lynet2/multi-nginx
   - docker push lynet2/multi-server
-  - docker push lynet2/multi-worker
+  - docker push lynet2/multi-worker 
